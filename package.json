@@ -15,7 +15,6 @@
     "flock"
   ],
   "author": "Ashutosh Kumar Singh <singhjug1994@gmail.com> (https://github.com/juggernaut451)",
-
   "licenses": [
     {
       "type": "MIT",
@@ -31,5 +30,23 @@
     "pmx": "^0.5.5",
     "request": "^2.67.0"
   },
-  "config": {}
+  "config": {
+    "flock_url": null,
+    "log": false,
+    "error": true,
+    "kill": true,
+    "exception": true,
+    "restart": false,
+    "reload": false,
+    "delete": false,
+    "stop": false,
+    "restart overlimit": true,
+    "exit": false,
+    "start": false,
+    "online": false,
+    "buffer": true,
+    "buffer_seconds": 2,
+    "queue_max": 100,
+    "buffer_max_seconds": 20
+  }
 }
