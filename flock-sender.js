@@ -7,7 +7,6 @@ module.exports = { sendToFlock };
 const request = require("request");
 const os = require("os");
 
-
 /**
  * Sends immediately the message(s) to Flock's Incoming Webhook.
  *
@@ -75,10 +74,15 @@ function sendToFlock(messages, config) {
     });
   }
 
+  let flockText = payload.attachments.reduce(function (finalMessage, obj) {
+    finalMessage = finalMessage + "\n" + Date(obj.ts) + " || " + obj.fallback;
+    return finalMessage;
+  }, "");
+  
   // Options for the post request
   const requestOptions = {
     method: "post",
-    body: payload,
+    body: { text: flockText },
     json: true,
     url: config.flock_url,
   };
@@ -86,7 +90,7 @@ function sendToFlock(messages, config) {
   // Finally, make the post request to the Flock Incoming Webhook
   request(requestOptions, function (err, res, body) {
     if (err) return console.error(err);
-    if (body !== "ok") {
+    if (!body.uid) {
       console.error(
         "Error sending notification to Flock, verify that the Flock URL for incoming webhooks is correct. " +
           messages.length +
@@ -132,8 +136,6 @@ function mergeSimilarMessages(messages) {
  */
 function convertMessagesToFlockAttachments(messages) {
   return messages.reduce(function (flockAttachments, message) {
-    
-
     var title = `${message.name} ${message.event}`;
     var description = (message.description || "").trim();
     var fallbackText =
