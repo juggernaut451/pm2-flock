@@ -123,7 +123,7 @@ pm2.launchBus(function (err, bus) {
   // Listen for process logs
   if (moduleConfig.log) {
     bus.on("log:out", function (data) {
-      // if (data.process.name === 'pm2-flock') { return; } // Ignore messages of own module.
+      if (data.process.name === 'pm2-flock') { return; } // Ignore messages of own module.
       const parsedLog = parseIncommingLog(data.data);
       flockUrlRouter.addMessage({
         name: parseProcessName(data.process),
@@ -137,7 +137,7 @@ pm2.launchBus(function (err, bus) {
   // Listen for process errors
   if (moduleConfig.error) {
     bus.on("log:err", function (data) {
-      // if (data.process.name === 'pm2-flock') { return; } // Ignore messages of own module.
+      if (data.process.name === 'pm2-flock') { return; } // Ignore messages of own module.
 
       const parsedLog = parseIncommingLog(data.data);
       flockUrlRouter.addMessage({
@@ -164,7 +164,7 @@ pm2.launchBus(function (err, bus) {
   // Listen for process exceptions
   if (moduleConfig.exception) {
     bus.on("process:exception", function (data) {
-      // if (data.process.name === 'pm2-flock') { return; } // Ignore messages of own module.
+      if (data.process.name === 'pm2-flock') { return; } // Ignore messages of own module.
 
       // If it is instance of Error, use it. If type is unknown, stringify it.
       const description =
@@ -185,7 +185,7 @@ pm2.launchBus(function (err, bus) {
     if (!moduleConfig[data.event]) {
       return;
     } // This event type is disabled by configuration.
-    // if (data.process.name === 'pm2-flock') { return; } // Ignore messages of own module.
+    if (data.process.name === 'pm2-flock') { return; } // Ignore messages of own module.
 
     let description = null;
     switch (data.event) {
